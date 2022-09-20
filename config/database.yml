@@ -1,0 +1,21 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: root
+  password: 123456789
+  socket: /var/run/mysqld/mysqld.sock
+
+development:
+  <<: *default
+  database: trelloAPI
+
+test:
+  <<: *default
+  database: trelloAPI
+
+production:
+  <<: *default
+  database: trelloAPI
+  username: trello
+  password: <%= ENV['TRELLO_DATABASE_PASSWORD'] %>

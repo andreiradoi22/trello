@@ -36,6 +36,16 @@ class Api::V1::BoardsController < ApplicationController
     end
   end
 
+  # def order_by_date
+  #   boards = Board.order('created_at DESC');
+  #   render json: {status: 'SUCCESS', message: 'Boards ordered by date', data: boards}, status: :ok
+  # end
+
+  # def order_by_name
+  #   boards = Board.order('title CRESC');
+  #   render json: {status: 'SUCCESS', message: 'Boards ordered by title', data: boards}, status: :ok
+  # end
+
   private
 
   def board_params

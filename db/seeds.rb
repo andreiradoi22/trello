@@ -10,17 +10,17 @@
 
 # Column.create({
 #   title: "TO DO",
-#   board_id: 5
+#   board_id: 1
 # })
 
 # Column.create({
 #   title: "IN PROGRESS",
-#   board_id: 5
+#   board_id: 1
 # })
 
 # Column.create({
 #   title: "DONE",
-#   board_id: 5
+#   board_id: 1
 # })
 
 # Story.create({
@@ -28,7 +28,7 @@
 #   description: "description 1",
 #   status: "TO DO",
 #   due_date: "2022-12-12",
-#   column_id: 5
+#   column_id: 2
 # })
 
 # Story.create({
@@ -36,7 +36,7 @@
 #   description: "description 2",
 #   status: "IN PROGRESS",
 #   due_date: "2022-12-13",
-#   column_id: 6
+#   column_id: 1
 # })
 
 # Story.create({
@@ -44,5 +44,5 @@
 #   description: "description 3",
 #   status: "DONE",
 #   due_date: "2022-12-10",
-#   column_id: 7
+#   column_id: 3
 # })

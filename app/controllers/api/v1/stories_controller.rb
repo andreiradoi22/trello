@@ -39,6 +39,6 @@ class Api::V1::StoriesController < ApplicationController
   private
 
   def story_params
-    params.permit(:title, :description, :status, :due_date)
+    params.permit(:title, :description, :status, :due_date, :column_id)
   end
 end

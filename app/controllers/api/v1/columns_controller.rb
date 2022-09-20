@@ -39,6 +39,6 @@ class Api::V1::ColumnsController < ApplicationController
   private
 
   def column_params
-    params.permit(:title, :body)
+    params.permit(:title, :board_id)
   end
 end

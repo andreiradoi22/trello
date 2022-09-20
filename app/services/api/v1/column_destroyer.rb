@@ -1,10 +1,9 @@
 module Api
   module V1
-    class BoardUpdater
-    #class Api::V1::BoardUpdater
-      def initialize(board, board_params)
-        @board = board
-        @board_params = board_params
+    class ColumnDestroyer
+    #class Api::V1::ColumnDestroyer
+      def initialize(column)
+        @column = column
       end
 
       def successful?
@@ -13,15 +12,11 @@ module Api
 
       def run
         ActiveRecord::Base.transaction do
-          @successful = @board.update(@board_params)
+          @successful = @column.destroy
 
           raise ActiveRecord::Rollback unless self.successful?
         end
         self
-      end
-
-      def board
-        @board
       end
     end
   end

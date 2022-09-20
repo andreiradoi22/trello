@@ -1,44 +1,45 @@
-class Api::V1::ColumnsController < ApplicationController
-  skip_before_action :verify_authenticity_token
+module Api
+  module V1
+    class ColumnsController < ApplicationController
+    #class Api::V1::ColumnsController < ApplicationController
+      skip_before_action :verify_authenticity_token
 
-  def index
-    columns = Column.order('created_at DESC');
-    render json: {status: 'SUCCESS', message: 'Loaded columns', data: columns}, status: :ok
-  end
+      def index
+        columns = Column.order(created_at: :desc);
+        render json: {status: 'SUCCESS', message: 'Loaded columns', data: columns}, status: :ok
+      end
 
-  def show
-    column = Column.find(params[:id])
-    render json: {status: 'SUCCESS', message: 'Loaded column', data: column}, status: :ok
-  end
+      def show
+        column = Column.find(params[:id])
+        render json: {status: 'SUCCESS', message: 'Loaded column', data: column}, status: :ok
+      end
 
-  def create
-    column = Column.new(column_params)
+      def create
+        column = Column.new(column_params)
+        creator = ColumnCreator.new(column).run
+        status = creator.successful? ? :ok : :unprocessable_entity
+        render json: { column: column }, status: status
+      end
 
-    if column.save
-      render json: {status: 'SUCCESS', message: 'Saved column', data: column}, status: :ok
-    else
-      render json: {status: 'ERROR', message: 'Column not saved', data: column.errors}, status: unprocessable_entity
+      def destroy
+        column = Column.find(params[:id])
+        destroyer = ColumnDestroyer.new(column).run
+        status = destroyer.successful? ? :ok : :unprocessable_entity
+        render json: { column: column }, status: status
+      end
+
+      def update
+        column = Column.find(params[:id])
+        updater = ColumnUpdater.new(column, column_params).run
+        status = updater.successful? ? :ok : :unprocessable_entity
+        render json: { column: updater.column }, status: status
+      end
+
+      private
+
+      def column_params
+        params.permit(:title, :board_id)
+      end
     end
-  end
-
-  def destroy
-    column = Column.find(params[:id])
-    column.destroy
-    render json: {status: 'SUCCESS', message: 'Deleted column', data: column}, status: :ok
-  end
-
-  def update
-    column = Column.find(params[:id])
-    if column.update(column_params)
-      render json: {status: 'SUCCESS', message: 'Updated column', data: column}, status: :ok
-    else
-      render json: {status: 'ERROR', message: 'Column not updated', data: column.errors}, status: unprocessable_entity
-    end
-  end
-
-  private
-
-  def column_params
-    params.permit(:title, :board_id)
   end
 end

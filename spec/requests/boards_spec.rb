@@ -13,11 +13,21 @@ describe Board, type: :request do
     end
   end
 
-  describe 'POST /boards' do
-    it 'create new board' do
-      post '/api/v1/boards', params: { board: {title: "title1created", body: "body1created"} }
+  # describe 'POST /boards' do
+  #   it 'create new board' do
+  #     expect {
+  #       post '/api/v1/boards', params: { board: {title: "title1created", body: "body1created"} }
+  #   }.to change {Board.count}.from(2).to(3)
 
-      expect(response).to have_http_status(:ok)
-    end
-  end
+  #     expect(response).to have_http_status(:ok)
+  #   end
+  # end
+
+  # describe 'DELETE /board/:id' do
+  #   it 'deletes board' do
+  #     delete 'api/v1/board/27'
+
+  #     expect(response).to have_http_status(:no_content)
+  #   end
+  # end
 end

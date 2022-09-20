@@ -5,7 +5,9 @@ module Api
       skip_before_action :verify_authenticity_token
 
       def index
-        stories = Story.order('created_at DESC');
+        ordering = {}
+        ordering[params[:sorted_by] || 'created_at'] = params[:order_by] || 'desc'
+        stories = Story.order(ordering)
         render json: {status: 'SUCCESS', message: 'Loaded stories', data: stories}, status: :ok
       end
 

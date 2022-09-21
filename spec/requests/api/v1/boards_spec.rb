@@ -10,7 +10,7 @@ RSpec.describe "Api::V1::BoardsController", type: :request do
 
   describe "GET /api/v1/boards/:id" do
     it "status 200" do
-      board = FactoryBot.create(:board)
+      board = create(:board)
       url = 'http://localhost:3000/api/v1/boards/' + board.id.to_s
       get url
       expect(response).to have_http_status(200)

@@ -35,6 +35,11 @@ module Api
         render json: { board: board }, status: status
       end
 
+      def filter_by
+        stories = StoryFilter.new(params[:id]).status_filter(params[:status]).status_due_date(params[:due_date]).call
+        render json: { data: stories }, status: :ok
+      end
+
       private
 
       def board_params

@@ -11,13 +11,13 @@ module Api
         !!@successful
       end
 
-      def run
+      def call
+        story_update = Story.find(@story)
         ActiveRecord::Base.transaction do
-          @successful = @story.update(@story_params)
-
+          @successful = story_update.update(@story_params)
           raise ActiveRecord::Rollback unless self.successful?
         end
-        self
+        story_update
       end
 
       def story

@@ -11,12 +11,12 @@ module Api
       end
 
       def call
+        board = Board.new(@board_params)
         ActiveRecord::Base.transaction do
-          @successful = Board.new(@board_params).save
-
+          @successful = board.save
           raise ActiveRecord::Rollback unless self.successful?
         end
-        self
+        board
       end
     end
   end

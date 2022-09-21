@@ -17,22 +17,22 @@ module Api
       end
 
       def create
-        column = Column.new(column_params)
-        creator = ColumnCreator.new(column).run
+        creator = ColumnCreator.new(column_params)
+        column = creator.call
         status = creator.successful? ? :ok : :unprocessable_entity
         render json: { column: column }, status: status
       end
 
       def destroy
-        column = Column.find(params[:id])
-        destroyer = ColumnDestroyer.new(column).run
+        destroyer = ColumnDestroyer.new(params[:id])
+        column = destroyer.call
         status = destroyer.successful? ? :ok : :unprocessable_entity
         render json: { column: column }, status: status
       end
 
       def update
-        column = Column.find(params[:id])
-        updater = ColumnUpdater.new(column, column_params).run
+        updater = ColumnUpdater.new(params[:id], column_params)
+        column = updater.call
         status = updater.successful? ? :ok : :unprocessable_entity
         render json: { column: updater.column }, status: status
       end

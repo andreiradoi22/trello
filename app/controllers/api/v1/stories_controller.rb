@@ -17,22 +17,22 @@ module Api
       end
 
       def create
-        story = Story.new(story_params)
-        creator = StoryCreator.new(story).run
+        creator = StoryCreator.new(story_params)
+        story = creator.call
         status = creator.successful? ? :ok : :unprocessable_entity
         render json: { story: story }, status: status
       end
 
       def destroy
-        story = Story.find(params[:id])
-        destroyer = StoryDestroyer.new(story).run
+        destroyer = StoryDestroyer.new(params[:id])
+        story = destroyer.call
         status = destroyer.successful? ? :ok : :unprocessable_entity
         render json: { story: story }, status: status
       end
 
       def update
-        story = Story.find(params[:id])
-        updater = StoryUpdater.new(story, story_params).run
+        updater = StoryUpdater.new(params[:id], story_params)
+        story = updater.call
         status = updater.successful? ? :ok : :unprocessable_entity
         render json: { story: updater.story }, status: status
       end

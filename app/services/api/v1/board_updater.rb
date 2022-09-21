@@ -11,13 +11,13 @@ module Api
         !!@successful
       end
 
-      def run
+      def call
+        board_update = Board.find(@board)
         ActiveRecord::Base.transaction do
-          @successful = @board.update(@board_params)
-
+          @successful = board_update.update(@board_params)
           raise ActiveRecord::Rollback unless self.successful?
         end
-        self
+        board_update
       end
 
       def board

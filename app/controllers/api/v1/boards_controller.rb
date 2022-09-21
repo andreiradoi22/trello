@@ -15,21 +15,22 @@ module Api
       end
 
       def create
-        creator = BoardCreator.new(board_params).call
+        creator = BoardCreator.new(board_params)
+        board = creator.call
         status = creator.successful? ? :ok : :unprocessable_entity
-        render json: { board: board_params }, status: status
+        render json: { board: board }, status: status
       end
 
       def destroy
-        board = Board.find(params[:id])
-        destroyer = BoardDestroyer.new(board).run
+        destroyer = BoardDestroyer.new(params[:id])
+        board = destroyer.call
         status = destroyer.successful? ? :ok : :unprocessable_entity
         render json: { board: board }, status: status
       end
 
       def update
-        board = Board.find(params[:id])
-        updater = BoardUpdater.new(board, board_params).run
+        updater = BoardUpdater.new(params[:id], board_params)
+        board = updater.call
         status = updater.successful? ? :ok : :unprocessable_entity
         render json: { board: updater.board }, status: status
       end

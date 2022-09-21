@@ -2,21 +2,21 @@ module Api
   module V1
     class ColumnCreator
     #class Api::V1::ColumnCreator
-      def initialize(column)
-        @column = column
+      def initialize(column_params)
+        @column_params = column_params
       end
 
       def successful?
         !!@successful
       end
 
-      def run
+      def call
+        column = Column.new(@column_params)
         ActiveRecord::Base.transaction do
-          @successful = @column.save
-
+          @successful = column.save
           raise ActiveRecord::Rollback unless self.successful?
         end
-        self
+        column
       end
     end
   end

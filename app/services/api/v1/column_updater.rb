@@ -11,13 +11,13 @@ module Api
         !!@successful
       end
 
-      def run
+      def call
+        column_update = Column.find(@column)
         ActiveRecord::Base.transaction do
-          @successful = @column.update(@column_params)
-
+          @successful = column_update.update(@column_params)
           raise ActiveRecord::Rollback unless self.successful?
         end
-        self
+        column_update
       end
 
       def column

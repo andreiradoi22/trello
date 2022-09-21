@@ -5,7 +5,9 @@ module Api
       skip_before_action :verify_authenticity_token
 
       def index
-        columns = Column.order(created_at: :desc);
+        ordering = {}
+        ordering[params[:sorted_by] || 'created_at'] = params[:order_by] || 'desc'
+        columns = Column.order(ordering);
         render json: {status: 'SUCCESS', message: 'Loaded columns', data: columns}, status: :ok
       end
 

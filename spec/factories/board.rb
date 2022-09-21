@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :board do
-    title { "title 1" }
-    body { "body1" }
+    title { "title" }
+    body { "body" }
   end
 end

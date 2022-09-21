@@ -27,7 +27,7 @@ RSpec.describe "Api::V1::BoardsController", type: :request do
 
     it "verification new board" do
       cnt = Board.count
-      board = FactoryBot.create(:board)
+      board = create(:board)
       url = 'http://localhost:3000/api/v1/boards/' + board.id.to_s
       get url
       expect(Board.count).to eq(cnt + 1)
@@ -80,7 +80,7 @@ RSpec.describe "Api::V1::BoardsController", type: :request do
   describe "DELETE /api/v1/boards" do
     it "deleting board" do
       headers = { 'ACCEPT' => 'application/json' }
-      board = FactoryBot.create(:board)
+      board = create(:board)
       delete "/api/v1/boards/#{board.id}"
       expect(response).to have_http_status(200)
     end

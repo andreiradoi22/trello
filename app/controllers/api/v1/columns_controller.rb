@@ -34,7 +34,7 @@ module Api
         updater = ColumnUpdater.new(params[:id], column_params)
         column = updater.call
         status = updater.successful? ? :ok : :unprocessable_entity
-        render json: { column: updater.column }, status: status
+        render json: { column: column }, status: status
       end
 
       private

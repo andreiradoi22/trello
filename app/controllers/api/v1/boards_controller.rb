@@ -32,7 +32,7 @@ module Api
         updater = BoardUpdater.new(params[:id], board_params)
         board = updater.call
         status = updater.successful? ? :ok : :unprocessable_entity
-        render json: { board: updater.board }, status: status
+        render json: { board: board }, status: status
       end
 
       private

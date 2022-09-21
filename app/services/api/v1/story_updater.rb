@@ -2,8 +2,8 @@ module Api
   module V1
     class StoryUpdater
     #class Api::V1::StoryUpdater
-      def initialize(story, story_params)
-        @story = story
+      def initialize(id, story_params)
+        @id = id
         @story_params = story_params
       end
 
@@ -12,7 +12,7 @@ module Api
       end
 
       def call
-        story_update = Story.find(@story)
+        story_update = Story.find(@id)
         ActiveRecord::Base.transaction do
           @successful = story_update.update(@story_params)
           raise ActiveRecord::Rollback unless self.successful?

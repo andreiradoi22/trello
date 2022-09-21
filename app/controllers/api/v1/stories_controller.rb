@@ -34,7 +34,7 @@ module Api
         updater = StoryUpdater.new(params[:id], story_params)
         story = updater.call
         status = updater.successful? ? :ok : :unprocessable_entity
-        render json: { story: updater.story }, status: status
+        render json: { story: story }, status: status
       end
 
       private

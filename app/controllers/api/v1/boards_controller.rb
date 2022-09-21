@@ -15,10 +15,9 @@ module Api
       end
 
       def create
-        board = Board.new(board_params)
-        creator = BoardCreator.new(board).run
+        creator = BoardCreator.new(board_params).call
         status = creator.successful? ? :ok : :unprocessable_entity
-        render json: { board: board }, status: status
+        render json: { board: board_params }, status: status
       end
 
       def destroy

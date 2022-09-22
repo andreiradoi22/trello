@@ -1,11 +1,10 @@
 module Api
   module V1
     class StoriesController < ApplicationController
-    #class Api::V1::StoriesController < ApplicationController
       skip_before_action :verify_authenticity_token
 
       def index
-        stories = Story.order(created_at: :desc)
+        stories = Column.find(params[:column_id]).stories
         render json: {status: 'SUCCESS', message: 'Loaded stories', data: stories}, status: :ok
       end
 
@@ -15,22 +14,22 @@ module Api
       end
 
       def create
-        creator = StoryCreator.new(story_params)
-        story = creator.call
+        creator = StoryCreator.new
+        story = creator.call(story_params)
         status = creator.successful? ? :ok : :unprocessable_entity
         render json: { story: story }, status: status
       end
 
       def destroy
-        destroyer = StoryDestroyer.new(params[:id])
-        story = destroyer.call
+        destroyer = StoryDestroyer.new
+        story = destroyer.call(params[:id])
         status = destroyer.successful? ? :ok : :unprocessable_entity
         render json: { story: story }, status: status
       end
 
       def update
-        updater = StoryUpdater.new(params[:id], story_params)
-        story = updater.call
+        updater = StoryUpdater.new
+        story = updater.call(params[:id], story_params)
         status = updater.successful? ? :ok : :unprocessable_entity
         render json: { story: story }, status: status
       end

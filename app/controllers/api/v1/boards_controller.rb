@@ -1,7 +1,6 @@
 module Api
   module V1
     class BoardsController < ApplicationController
-    #class Api::V1::BoardsController < ApplicationController
       skip_before_action :verify_authenticity_token
 
       def index
@@ -15,29 +14,24 @@ module Api
       end
 
       def create
-        creator = BoardCreator.new(board_params)
-        board = creator.call
+        creator = BoardCreator.new
+        board = creator.call(board_params)
         status = creator.successful? ? :ok : :unprocessable_entity
         render json: { board: board }, status: status
       end
 
       def destroy
-        destroyer = BoardDestroyer.new(params[:id])
-        board = destroyer.call
+        destroyer = BoardDestroyer.new
+        board = destroyer.call(params[:id])
         status = destroyer.successful? ? :ok : :unprocessable_entity
         render json: { board: board }, status: status
       end
 
       def update
-        updater = BoardUpdater.new(params[:id], board_params)
-        board = updater.call
+        updater = BoardUpdater.new
+        board = updater.call(params[:id], board_params)
         status = updater.successful? ? :ok : :unprocessable_entity
         render json: { board: board }, status: status
-      end
-
-      def filter_by
-        stories = StoryFilter.new(params[:id]).status_filter(params[:status]).status_due_date(params[:due_date]).call
-        render json: { data: stories }, status: :ok
       end
 
       private

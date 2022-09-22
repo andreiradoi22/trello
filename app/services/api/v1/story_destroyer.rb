@@ -2,16 +2,15 @@ module Api
   module V1
     class StoryDestroyer
     #class Api::V1::StoryDestroyer
-      def initialize(story_id)
-        @story_id = story_id
+      def initialize
       end
 
       def successful?
         !!@successful
       end
 
-      def call
-        story = Story.find(@story_id)
+      def call(story_id)
+        story = Story.find(story_id)
         ActiveRecord::Base.transaction do
           @successful = story.destroy
           raise ActiveRecord::Rollback unless self.successful?

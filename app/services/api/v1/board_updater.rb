@@ -2,19 +2,17 @@ module Api
   module V1
     class BoardUpdater
     #class Api::V1::BoardUpdater
-      def initialize(id, board_params)
-        @id = id
-        @board_params = board_params
+      def initialize
       end
 
       def successful?
         !!@successful
       end
 
-      def call
-        board_update = Board.find(@id)
+      def call(id, board_params)
+        board_update = Board.find(id)
         ActiveRecord::Base.transaction do
-          @successful = board_update.update(@board_params)
+          @successful = board_update.update(board_params)
           raise ActiveRecord::Rollback unless self.successful?
         end
         board_update

@@ -4,17 +4,13 @@ module Api
       skip_before_action :verify_authenticity_token
 
       def index
-        # columns = Board.find(params[:board_id]).columns
-        # render json: {status: 'SUCCESS', message: 'Loaded columns', data: columns}, status: :ok
         columns = ColumnsPresenter.new(params[:board_id])
         render json: columns.as_json, status: :ok
       end
 
       def show
-        # column = Column.find(params[:id])
-        # render json: {status: 'SUCCESS', message: 'Loaded column', data: column}, status: :ok
         column = ColumnPresenter.new(params[:id])
-        render json: column.as_json, status: :ok
+        render json: { column: column.as_json }, status: column.status
       end
 
       def create

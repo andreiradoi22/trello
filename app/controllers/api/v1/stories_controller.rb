@@ -4,17 +4,13 @@ module Api
       skip_before_action :verify_authenticity_token
 
       def index
-        # stories = Column.find(params[:column_id]).stories
-        # render json: {status: 'SUCCESS', message: 'Loaded stories', data: stories}, status: :ok
         stories = StoriesPresenter.new(params[:column_id])
         render json: stories.as_json, status: :ok
       end
 
       def show
-        # story = Story.find(params[:id])
-        # render json: {status: 'SUCCESS', message: 'Loaded story', data: story}, status: :ok
         story = StoryPresenter.new(params[:id])
-        render json: story.as_json, status: :ok
+        render json: { sotry: story.as_json }, status: story.status
       end
 
       def create

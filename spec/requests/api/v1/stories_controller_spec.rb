@@ -19,6 +19,11 @@ RSpec.describe 'Api::V1::StoriesController', type: :request do
       get "http://localhost:3000/api/v1/boards//#{board.id}/columns//#{column.id}/stories/#{story.id}"
       expect(response).to have_http_status(200)
     end
+
+    it 'status 404' do
+      get "http://localhost:3000/api/v1/boards//#{board.id}/columns//#{column.id}/stories/96"
+      expect(response).to have_http_status(404)
+    end
   end
 
   describe 'POST /api/v1/stories' do

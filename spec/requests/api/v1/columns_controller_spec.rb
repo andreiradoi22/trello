@@ -18,6 +18,11 @@ RSpec.describe 'Api::V1::ColumnsController', type: :request do
       get "http://localhost:3000/api/v1/boards//#{board.id}/columns/#{column.id}"
       expect(response).to have_http_status(200)
     end
+
+    it 'status 404' do
+      get "http://localhost:3000/api/v1/boards//#{board.id}/columns/8"
+      expect(response).to have_http_status(404)
+    end
   end
 
   describe 'POST /api/v1/columns' do

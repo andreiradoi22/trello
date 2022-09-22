@@ -17,6 +17,11 @@ RSpec.describe 'Api::V1::BoardsController', type: :request do
       get "http://localhost:3000/api/v1/boards/#{board.id}"
       expect(response).to have_http_status(200)
     end
+
+    it 'status 404' do
+      get "http://localhost:3000/api/v1/boards/8"
+      expect(response).to have_http_status(404)
+    end
   end
 
   describe 'POST /api/v1/boards' do

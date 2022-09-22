@@ -38,6 +38,10 @@ module Api
         render json: { story: story }, status: status
       end
 
+      def filter_params
+        params.fetch(:filter, {})
+      end
+
       private
 
       def story_params

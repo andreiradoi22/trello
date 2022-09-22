@@ -4,13 +4,17 @@ module Api
       skip_before_action :verify_authenticity_token
 
       def index
-        boards = Board.order(created_at: :desc)
-        render json: {status: 'SUCCESS', message: 'Loaded boards', data: boards}, status: :ok
+        # boards = Board.order(created_at: :desc)
+        # render json: {status: 'SUCCESS', message: 'Loaded boards', data: boards}, status: :ok
+        boards = BoardsPresenter.new
+        render json: boards.as_json, status: :ok
       end
 
       def show
-        board = Board.find(params[:id])
-        render json: {status: 'SUCCESS', message: 'Loaded board', data: board}, status: :ok
+        # board = Board.find(params[:id])
+        # render json: {status: 'SUCCESS', message: 'Loaded board', data: board}, status: :ok
+        board = BoardPresenter.new(params[:id])
+        render json: board.as_json, status: :ok
       end
 
       def create

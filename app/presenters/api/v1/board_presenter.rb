@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 module Api
   module V1
+    # board show presenter
     class BoardPresenter
       def initialize(board)
         @board = board

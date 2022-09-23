@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 module Api
   module V1
+    # story updater
     class StoryUpdater
       # def initialize
       #   FOR SERVICIES
@@ -9,17 +12,15 @@ module Api
         !!@successful
       end
 
-      def call(story: , story_params:)
+      def call(story:, story_params:)
         ActiveRecord::Base.transaction do
           @successful = story.update(story_params)
-          raise ActiveRecord::Rollback unless self.successful?
+          raise ActiveRecord::Rollback unless successful?
         end
         story
       end
 
-      def story
-        @story
-      end
+      attr_reader :story
     end
   end
 end

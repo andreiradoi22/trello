@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 module Api
   module V1
+    # story creator
     class StoryCreator
       # def initialize
       #   FOR SERVICIES
@@ -9,12 +12,12 @@ module Api
         !!@successful
       end
 
-      def call(column: , story_params:)
+      def call(column:, story_params:)
         story = Story.new(story_params)
         story.column_id = column.id
         ActiveRecord::Base.transaction do
           @successful = story.save
-          raise ActiveRecord::Rollback unless self.successful?
+          raise ActiveRecord::Rollback unless successful?
         end
         story
       end

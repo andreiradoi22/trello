@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 module Api
   module V1
+    # board creator
     class BoardCreator
       # def initialize
       #   FOR SERVICIES
@@ -13,7 +16,7 @@ module Api
         board = Board.new(board_params)
         ActiveRecord::Base.transaction do
           @successful = board.save
-          raise ActiveRecord::Rollback unless self.successful?
+          raise ActiveRecord::Rollback unless successful?
         end
         board
       end

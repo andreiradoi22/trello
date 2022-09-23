@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 module Api
   module V1
+    # board destroyer
     class BoardDestroyer
       # def initialize
       #   FOR SERVICIES
@@ -12,7 +15,7 @@ module Api
       def call(board)
         ActiveRecord::Base.transaction do
           @successful = board.destroy
-          raise ActiveRecord::Rollback unless self.successful?
+          raise ActiveRecord::Rollback unless successful?
         end
         board
       end

@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 module Api
   module V1
+    # story index presenter
     class StoryPresenter
       def initialize(story)
         @story = story

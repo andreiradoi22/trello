@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 module Api
   module V1
+    # column updater
     class ColumnUpdater
       # def initialize
       #   FOR SERVICIES
@@ -9,17 +12,15 @@ module Api
         !!@successful
       end
 
-      def call(column: , column_params:)
+      def call(column:, column_params:)
         ActiveRecord::Base.transaction do
           @successful = column.update(column_params)
-          raise ActiveRecord::Rollback unless self.successful?
+          raise ActiveRecord::Rollback unless successful?
         end
         column
       end
 
-      def column
-        @column
-      end
+      attr_reader :column
     end
   end
 end

@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 module Api
   module V1
+    # columns class
     class ColumnsController < ApplicationController
       skip_before_action :verify_authenticity_token
       before_action :find_board
-      before_action :find_column, only: [:show, :destroy, :update]
+      before_action :find_column, only: %i[show destroy update]
 
       def index
         columns = @board.columns

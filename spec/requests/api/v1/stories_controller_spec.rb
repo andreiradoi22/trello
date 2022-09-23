@@ -3,20 +3,22 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::StoriesController', type: :request do
+  url = 'http://localhost:3000/api/v1/boards/'
+
   let(:board) { create(:board) }
-  let(:column) { create(:column) }
-  let(:story) { create(:story) }
+  let(:column) { create(:column, board_id: board.id) }
+  let(:story) { create(:story, column_id: column.id) }
 
   describe 'GET /api/v1/stories' do
     it 'status 200 verification' do
-      get "http://localhost:3000/api/v1/boards//#{board.id}/columns//#{column.id}/stories/"
+      get "#{url}/#{board.id}/columns//#{column.id}/stories/"
       expect(response).to have_http_status(200)
     end
   end
 
   describe 'GET /api/v1/stories/:id' do
     it 'status 200' do
-      get "http://localhost:3000/api/v1/boards//#{board.id}/columns//#{column.id}/stories/#{story.id}"
+      get "#{url}/#{board.id}/columns//#{column.id}/stories/#{story.id}"
       expect(response).to have_http_status(200)
     end
 
@@ -29,28 +31,30 @@ RSpec.describe 'Api::V1::StoriesController', type: :request do
   describe 'POST /api/v1/stories' do
     it 'creating sotry' do
       headers = { 'ACCEPT' => 'application/json' }
-      post "http://localhost:3000/api/v1/boards//#{board.id}/columns//#{column.id}/stories/",
-           params: { title: 'Title Test', description: 'Description Test', status: 'TO DO', due_date: '2022-12-12', column_id: 3 }, headers: headers
+      post "#{url}/#{board.id}/columns//#{column.id}/stories/",
+           params: { title: 'Title Test', description: 'Description Test',
+                     status: 'TO DO', due_date: '2022-12-12', column_id: 3 }, headers: headers
       expect(response).to have_http_status(200)
     end
 
     it 'verification new story' do
       cnt = Story.count
-      get "http://localhost:3000/api/v1/boards//#{board.id}/columns//#{column.id}/stories/#{story.id}"
+      get "#{url}/#{board.id}/columns//#{column.id}/stories/#{story.id}"
       expect(Story.count).to eq(cnt + 1)
     end
 
     it 'error creating - missing inputs' do
       headers = { 'ACCEPT' => 'application/json' }
-      post "http://localhost:3000/api/v1/boards//#{board.id}/columns//#{column.id}/stories/",
+      post "#{url}/#{board.id}/columns//#{column.id}/stories/",
            params: { title: '', description: '', status: '', due_date: '', column_id: 3 }, headers: headers
       expect(response).to have_http_status(422)
     end
 
     it 'verify story attributes' do
       headers = { 'ACCEPT' => 'application/json' }
-      post "http://localhost:3000/api/v1/boards//#{board.id}/columns//#{column.id}/stories/",
-           params: { title: 'Title Test', description: 'Description Test', status: 'TO DO', due_date: '2022-12-12', column_id: 3 }, headers: headers
+      post "#{url}/#{board.id}/columns//#{column.id}/stories/",
+           params: { title: 'Title Test', description: 'Description Test',
+                     status: 'TO DO', due_date: '2022-12-12', column_id: 3 }, headers: headers
       parsed1 = JSON.parse(response.body)['story']['title']
       expect(parsed1).to eq('Title Test')
       parsed2 = JSON.parse(response.body)['story']['description']
@@ -65,22 +69,24 @@ RSpec.describe 'Api::V1::StoriesController', type: :request do
   describe 'PUT /api/v1/stories' do
     it 'updating story' do
       headers = { 'ACCEPT' => 'application/json' }
-      put "http://localhost:3000/api/v1/boards//#{board.id}/columns//#{column.id}/stories//#{story.id}",
-          params: { id: story.id, title: 'Title Test UPD', description: 'Description Test UPD', status: 'TO DO UPD', due_date: '2022-12-13', column_id: 3 }, headers: headers
+      put "#{url}/#{board.id}/columns//#{column.id}/stories//#{story.id}",
+          params: { id: story.id, title: 'Title Test UPD', description: 'Description Test UPD',
+                    status: 'TO DO UPD', due_date: '2022-12-13', column_id: 3 }, headers: headers
       expect(response).to have_http_status(200)
     end
 
     it 'error updating - missing inputs' do
       headers = { 'ACCEPT' => 'application/json' }
-      put "http://localhost:3000/api/v1/boards//#{board.id}/columns//#{column.id}/stories//#{story.id}",
+      put "#{url}/#{board.id}/columns//#{column.id}/stories//#{story.id}",
           params: { id: story.id, title: '', description: '', status: '', due_date: '', column_id: 3 }, headers: headers
       expect(response).to have_http_status(422)
     end
 
     it 'updating story attributes' do
       headers = { 'ACCEPT' => 'application/json' }
-      put "http://localhost:3000/api/v1/boards//#{board.id}/columns//#{column.id}/stories//#{story.id}",
-          params: { id: story.id, title: 'Title Test UPD', description: 'Description Test UPD', status: 'TO DO UPD', due_date: '2022-12-13', column_id: 3 }, headers: headers
+      put "#{url}/#{board.id}/columns//#{column.id}/stories//#{story.id}",
+          params: { id: story.id, title: 'Title Test UPD', description: 'Description Test UPD',
+                    status: 'TO DO UPD', due_date: '2022-12-13', column_id: 3 }, headers: headers
       parsed1 = JSON.parse(response.body)['story']['title']
       expect(parsed1).to eq('Title Test UPD')
       parsed2 = JSON.parse(response.body)['story']['description']
@@ -94,7 +100,7 @@ RSpec.describe 'Api::V1::StoriesController', type: :request do
 
   describe 'DELETE /api/v1/stories' do
     it 'deleting story' do
-      delete "http://localhost:3000/api/v1/boards//#{board.id}/columns//#{column.id}/stories//#{story.id}"
+      delete "#{url}/#{board.id}/columns//#{column.id}/stories//#{story.id}"
       expect(response).to have_http_status(200)
     end
   end

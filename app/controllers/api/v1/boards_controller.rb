@@ -1,11 +1,14 @@
+# frozen_string_literal: true
+
 module Api
   module V1
+    # boards class
     class BoardsController < ApplicationController
       skip_before_action :verify_authenticity_token
-      before_action :find_board, only: [:show, :destroy, :update]
+      before_action :find_board, only: %i[show destroy update]
 
       def index
-        boards_presenter = BoardsPresenter.new()
+        boards_presenter = BoardsPresenter.new
         render json: boards_presenter.as_json, status: :ok
       end
 

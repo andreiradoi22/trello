@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 module Api
   module V1
+    # board index presenter
     class BoardsPresenter
       # def initialize
       #   FOR SERVICIES

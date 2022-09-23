@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 module Api
   module V1
+    # stories class
     class StoriesController < ApplicationController
       skip_before_action :verify_authenticity_token
       before_action :find_board
       before_action :find_column
-      before_action :find_story, only: [:show, :destroy, :update]
+      before_action :find_story, only: %i[show destroy update]
 
       def index
         stories = @column.stories

@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 module Api
   module V1
+    # story show presenter
     class StoriesPresenter
       def initialize(stories)
         @stories = stories
@@ -8,7 +11,7 @@ module Api
       def stories
         stories = []
         @stories.each do |story|
-          stories << { 
+          stories << {
             "id": story.id,
             "title": story.title,
             "description": story.description,

@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 module Api
   module V1
+    # column index presenter
     class ColumnsPresenter
       def initialize(columns)
         @columns = columns

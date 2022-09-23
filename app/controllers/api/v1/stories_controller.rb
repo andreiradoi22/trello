@@ -16,7 +16,7 @@ module Api
 
       def show
         story_presenter = StoryPresenter.new(@story)
-        render json: { sotry: story_presenter.as_json }, status: :ok
+        render json: { story: story_presenter.as_json }, status: :ok
       end
 
       def create

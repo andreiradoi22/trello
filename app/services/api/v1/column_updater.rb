@@ -1,21 +1,20 @@
 module Api
   module V1
     class ColumnUpdater
-    #class Api::V1::ColumnUpdater
-      def initialize
-      end
+      # def initialize
+      #   FOR SERVICIES
+      # end
 
       def successful?
         !!@successful
       end
 
-      def call(id, column_params)
-        column_update = Column.find(id)
+      def call(column: , column_params:)
         ActiveRecord::Base.transaction do
-          @successful = column_update.update(column_params)
+          @successful = column.update(column_params)
           raise ActiveRecord::Rollback unless self.successful?
         end
-        column_update
+        column
       end
 
       def column

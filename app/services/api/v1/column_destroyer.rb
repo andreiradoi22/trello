@@ -1,16 +1,15 @@
 module Api
   module V1
     class ColumnDestroyer
-    #class Api::V1::ColumnDestroyer
-      def initialize
-      end
+      # def initialize
+      #   FOR SERVICIES
+      # end
 
       def successful?
         !!@successful
       end
 
-      def call(column_id)
-        column = Column.find(column_id)
+      def call(column)
         ActiveRecord::Base.transaction do
           @successful = column.destroy
           raise ActiveRecord::Rollback unless self.successful?

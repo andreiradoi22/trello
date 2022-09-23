@@ -2,34 +2,37 @@ module Api
   module V1
     class ColumnsController < ApplicationController
       skip_before_action :verify_authenticity_token
+      before_action :find_board
+      before_action :find_column, only: [:show, :destroy, :update]
 
       def index
-        columns = ColumnsPresenter.new(params[:board_id])
-        render json: columns.as_json, status: :ok
+        columns = @board.columns
+        columns_presenter = ColumnsPresenter.new(columns)
+        render json: columns_presenter.as_json, status: :ok
       end
 
       def show
-        column = ColumnPresenter.new(params[:id])
-        render json: { column: column.as_json }, status: column.status
+        column_presenter = ColumnPresenter.new(@column)
+        render json: { column: column_presenter.as_json }, status: :ok
       end
 
       def create
         creator = ColumnCreator.new
-        column = creator.call(column_params)
+        column = creator.call(board: @board, column_params: column_params)
         status = creator.successful? ? :ok : :unprocessable_entity
         render json: { column: column }, status: status
       end
 
       def destroy
         destroyer = ColumnDestroyer.new
-        column = destroyer.call(params[:id])
+        column = destroyer.call(@column)
         status = destroyer.successful? ? :ok : :unprocessable_entity
         render json: { column: column }, status: status
       end
 
       def update
         updater = ColumnUpdater.new
-        column = updater.call(params[:id], column_params)
+        column = updater.call(column: @column, column_params: column_params)
         status = updater.successful? ? :ok : :unprocessable_entity
         render json: { column: column }, status: status
       end
@@ -38,6 +41,14 @@ module Api
 
       def column_params
         params.permit(:title, :board_id)
+      end
+
+      def find_board
+        @board = Board.find(params[:board_id])
+      end
+
+      def find_column
+        @column = @board.columns.find(params[:id])
       end
     end
   end

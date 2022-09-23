@@ -1,21 +1,20 @@
 module Api
   module V1
     class StoryUpdater
-    #class Api::V1::StoryUpdater
-      def initialize
-      end
+      # def initialize
+      #   FOR SERVICIES
+      # end
 
       def successful?
         !!@successful
       end
 
-      def call(id, story_params)
-        story_update = Story.find(id)
+      def call(story: , story_params:)
         ActiveRecord::Base.transaction do
-          @successful = story_update.update(story_params)
+          @successful = story.update(story_params)
           raise ActiveRecord::Rollback unless self.successful?
         end
-        story_update
+        story
       end
 
       def story

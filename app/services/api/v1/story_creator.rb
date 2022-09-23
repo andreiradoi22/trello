@@ -1,16 +1,17 @@
 module Api
   module V1
     class StoryCreator
-    #class Api::V1::StoryCreator
-      def initialize
-      end
+      # def initialize
+      #   FOR SERVICIES
+      # end
 
       def successful?
         !!@successful
       end
 
-      def call(story_params)
+      def call(column: , story_params:)
         story = Story.new(story_params)
+        story.column_id = column.id
         ActiveRecord::Base.transaction do
           @successful = story.save
           raise ActiveRecord::Rollback unless self.successful?

@@ -39,19 +39,6 @@ RSpec.describe 'Api::V1::ColumnsController', type: :request do
       get "#{url}/#{board.id}/columns/#{column.id}"
       expect(Column.count).to eq(cnt + 1)
     end
-
-    it 'error creating - missing inputs' do
-      headers = { 'ACCEPT' => 'application/json' }
-      post "#{url}/#{board.id}/columns/", params: { title: '', board_id: 1 }, headers: headers
-      expect(response).to have_http_status(422)
-    end
-
-    it 'verify column attributes' do
-      headers = { 'ACCEPT' => 'application/json' }
-      post "#{url}/#{board.id}/columns/", params: { title: 'Title Test', board_id: 2 }, headers: headers
-      parsed1 = JSON.parse(response.body)['column']['title']
-      expect(parsed1).to eq('Title Test')
-    end
   end
 
   describe 'PUT /api/v1/columns' do
@@ -66,14 +53,6 @@ RSpec.describe 'Api::V1::ColumnsController', type: :request do
       headers = { 'ACCEPT' => 'application/json' }
       put "#{url}/#{board.id}/columns/#{column.id}", params: { id: column.id, title: '', board_id: 5 }, headers: headers
       expect(response).to have_http_status(422)
-    end
-
-    it 'updating column attributes' do
-      headers = { 'ACCEPT' => 'application/json' }
-      put "#{url}/#{board.id}/columns/#{column.id}",
-          params: { id: column.id, title: 'testupd', board_id: 1 }, headers: headers
-      parsed1 = JSON.parse(response.body)['column']['title']
-      expect(parsed1).to eq('testupd')
     end
   end
 

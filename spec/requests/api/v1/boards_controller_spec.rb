@@ -39,22 +39,6 @@ RSpec.describe 'Api::V1::BoardsController', type: :request do
       get "#{url}/#{board.id}"
       expect(Board.count).to eq(cnt + 1)
     end
-
-    it 'error creating - missing inputs' do
-      headers = { 'ACCEPT' => 'application/json' }
-      post url.to_s, params: { title: '', body: '' }, headers: headers
-      expect(response).to have_http_status(422)
-    end
-
-    it 'verify board attributes' do
-      headers = { 'ACCEPT' => 'application/json' }
-      post url.to_s, params: { title: 'Title Test', body: 'Body Test' },
-                     headers: headers
-      parsed1 = JSON.parse(response.body)['board']['title']
-      expect(parsed1).to eq('Title Test')
-      parsed2 = JSON.parse(response.body)['board']['body']
-      expect(parsed2).to eq('Body Test')
-    end
   end
 
   describe 'PUT /api/v1/boards' do
@@ -69,16 +53,6 @@ RSpec.describe 'Api::V1::BoardsController', type: :request do
       headers = { 'ACCEPT' => 'application/json' }
       put "#{url}/#{board.id}", params: { id: board.id, title: '', body: '' }, headers: headers
       expect(response).to have_http_status(422)
-    end
-
-    it 'updating board attributes' do
-      headers = { 'ACCEPT' => 'application/json' }
-      put "#{url}/#{board.id}", params: { id: board.id, title: 'testupd', body: 'cevaupd' },
-                                headers: headers
-      parsed1 = JSON.parse(response.body)['board']['title']
-      expect(parsed1).to eq('testupd')
-      parsed2 = JSON.parse(response.body)['board']['body']
-      expect(parsed2).to eq('cevaupd')
     end
   end
 

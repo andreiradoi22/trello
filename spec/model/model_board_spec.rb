@@ -1,20 +1,20 @@
-# require 'rails_helper'
+require 'rails_helper'
 
-# RSpec.describe Board, type: :model do
-#   describe "POST /api/v1/boards" do
+RSpec.describe Board, type: :model do
+  context "testing board model validations" do
+    it 'when title is nil' do
+      board = build(:board, title: nil)
+      expect(board).to_not be_valid
+    end
 
-#     it "test the validation" do
-#       headers = { 'ACCEPT' => 'application/json' }
-#       url = 'http://localhost:3000/api/v1/boards/'
-#       post url, :params => { title: '', body: '' }, :headers => headers
-#       expect(response).to have_http_status(422)
-#     end
-#   end
+    it 'when body is nil' do
+      board = build(:board, body: nil)
+      expect(board).to_not be_valid
+    end
 
-#   it "x" do
-#     board = create(:board, title: "TitluBoard1")
-#     column = create(:column, title: "TitluColumn1", board_id: board.id)
-#     story = create(:story, title: "TitluStory1", column_id: column.id)
-#     expect(board.stories).to eq([story])
-#   end
-# end
+    it 'when all attributes are completed' do
+      board = build(:board, title: "Title", body: "Body")
+      expect(board).to be_valid
+    end
+  end
+end
